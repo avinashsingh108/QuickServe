@@ -1,0 +1,8 @@
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap");
+
+.filters select option {
+  background-color: #f8fafc; 
+  padding: 10px;
+  border: none;
+}
+
