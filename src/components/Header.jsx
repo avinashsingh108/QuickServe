@@ -11,7 +11,7 @@ function Header() {
     dispatch(setCurrency(event.target.value));
   };
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 p-4 bg-white flex justify-between px-2 sm:px-4 md:px-10 lg:px-20 xl:px-36 shadow-md font-outfit">
+    <header className="fixed top-0 left-0 right-0 z-50 p-4 bg-white flex justify-between px-3 sm:px-4 md:px-10 lg:px-20 xl:px-36 shadow-md font-outfit">
       <h1 className="max-sm:text-[26px] text-2xl font-bold">
         <Link to="/">QuickServe</Link>
       </h1>

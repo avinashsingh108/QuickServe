@@ -1,15 +1,14 @@
-const filterServices = (services, selectedCategory, priceRange, searchTerm) => {
+const filterServices = (services, selectedCategory, searchTerm) => {
     return services.filter((service) => {
       const isCategoryMatch = selectedCategory
         ? service.category === selectedCategory
         : true;
-      const isPriceMatch =
-        service.price >= priceRange[0] && service.price <= priceRange[1];
-      const isSearchMatch = service.name
+        const isSearchMatch = service.name
         .toLowerCase()
         .includes(searchTerm.toLowerCase());
+        console.log(isSearchMatch);
   
-      return isCategoryMatch && isPriceMatch && isSearchMatch;
+      return isCategoryMatch && isSearchMatch;
     });
   };
   

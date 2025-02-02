@@ -23,7 +23,7 @@ const Analytics = () => {
     <div className="max-sm:mx-2 max-w-4xl mx-auto  space-y-4 py-20">
       <h2 className="text-3xl sm:text-4xl font-bold text-gray-800 border-b border-gray-300 max-w-4xl mx-auto mb-12 pb-1">
         {" "}
-        Analytics Overview
+        Analytics
       </h2>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">

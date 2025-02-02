@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { addToCart } from "../redux/cartSlice";
 import ServiceCard from "../components/ServiceCard";
 import services from "../data/services";
@@ -8,72 +8,15 @@ import { useNavigate } from "react-router-dom";
 import filterServices from "../utils/filterServices";
 import { FaFilterCircleXmark } from "react-icons/fa6";
 import Analytics from "../components/Analytics";
-import { selectCurrency } from "../redux/currencySlice";
-import convertPrice from "../utils/convertPrice";
 
 const Home = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [selectedCategory, setSelectedCategory] = useState("");
-  const [priceRange, setPriceRange] = useState([0, 100]);
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredServices, setFilteredServices] = useState(services);
   const servicesRef = useRef();
-  const isFilterApplied =
-    selectedCategory ||
-    JSON.stringify(priceRange) !== JSON.stringify([0, 100]) ||
-    searchTerm;
-
-  const selectedCurrency = useSelector(selectCurrency);
-
-  const currencySymbol = selectedCurrency === "INR" ? "₹" : "$";
-
-  const priceRanges = [
-    {
-      label: `All Prices`,
-      value: [0, convertPrice(selectedCurrency, 10000)],
-    },
-    {
-      label: `${currencySymbol} ${convertPrice(
-        selectedCurrency,
-        0
-      )} - ${currencySymbol} ${convertPrice(selectedCurrency, 2500)}`,
-      value: [
-        convertPrice(selectedCurrency, 0),
-        convertPrice(selectedCurrency, 2500),
-      ],
-    },
-    {
-      label: `${currencySymbol} ${convertPrice(
-        selectedCurrency,
-        2500
-      )} - ${currencySymbol} ${convertPrice(selectedCurrency, 5000)}`,
-      value: [
-        convertPrice(selectedCurrency, 2500),
-        convertPrice(selectedCurrency, 5000),
-      ],
-    },
-    {
-      label: `${currencySymbol} ${convertPrice(
-        selectedCurrency,
-        5000
-      )} - ${currencySymbol} ${convertPrice(selectedCurrency, 7500)}`,
-      value: [
-        convertPrice(selectedCurrency, 5000),
-        convertPrice(selectedCurrency, 7500),
-      ],
-    },
-    {
-      label: `${currencySymbol} ${convertPrice(
-        selectedCurrency,
-        7500
-      )} - ${currencySymbol} ${convertPrice(selectedCurrency, 10000)}`,
-      value: [
-        convertPrice(selectedCurrency, 7500),
-        convertPrice(selectedCurrency, 10000),
-      ],
-    },
-  ];
+  const isFilterApplied = selectedCategory || searchTerm;
 
   const handleOnAdd = (service) => {
     dispatch(addToCart(service));
@@ -93,7 +36,6 @@ const Home = () => {
     const updatedFilteredServices = filterServices(
       services,
       selectedCategory,
-      priceRange,
       searchTerm
     );
     setFilteredServices(updatedFilteredServices);
@@ -102,13 +44,12 @@ const Home = () => {
 
   const clearFilter = () => {
     setSelectedCategory("");
-    setPriceRange([0, 100]);
     setSearchTerm("");
     setFilteredServices(services);
   };
   return (
     <div className="font-outfit">
-      <section className="bg-gradient-to-b from-blue-400 flex flex-col justify-center items-center to-blue-50 pb-8 pt-20 md:pt-28 text-center h-screen">
+      <section className="bg-gradient-to-b from-blue-400 flex flex-col max-sm:gap-y-2 justify-center items-center to-blue-50 pb-8 pt-20 md:pt-28 text-center h-screen">
         <h1 className="text-5xl lg:text-7xl max-w-3xl font-bold">
           Book Local Services Online with Ease
         </h1>
@@ -119,52 +60,29 @@ const Home = () => {
 
         <div className="bg-gradient-to-r from-blue-300 mt-4 to-blue-100 p-1.5 rounded-3xl max-sm:mx-6 md:rounded-full filters">
           <div className="flex flex-wrap justify-between items-center bg-white rounded-2xl md:rounded-full">
-            <div>
-              <select
-                id="category"
-                className={`w-full cursor-pointer px-4 sm:px-20 py-2 sm:py-5 border-r border-gray-100 sm:hover:bg-gray-50 outline-none rounded-l-full ${
-                  selectedCategory === "" ? "text-gray-500" : "text-gray-900"
-                }`}
-                value={selectedCategory}
-                onChange={(e) => setSelectedCategory(e.target.value)}
-              >
-                <option value="">All Categories</option>
-                <option value="Fitness">Fitness</option>
-                <option value="Wellness">Wellness</option>
-                <option value="Therapy">Therapy</option>
-                <option value="Education">Education</option>
-              </select>
-            </div>
+            <select
+              id="category"
+              className={`w-full cursor-pointer px-4 sm:px-40 py-2 sm:py-5 border-r border-gray-100 sm:hover:bg-gray-50 outline-none rounded-l-full ${
+                selectedCategory === "" ? "text-gray-500" : "text-gray-900"
+              }`}
+              value={selectedCategory}
+              onChange={(e) => setSelectedCategory(e.target.value)}
+            >
+              <option value="">All Categories</option>
+              <option value="Fitness">Fitness</option>
+              <option value="Wellness">Wellness</option>
+              <option value="Therapy">Therapy</option>
+              <option value="Education">Education</option>
+            </select>
 
-            <div>
-              <select
-                id="priceRange"
-                className={`w-full cursor-pointer px-4 sm:px-12 max-sm:rounded-2xl sm:hover:bg-gray-50 py-2 sm:py-5 border-r border-gray-100 outline-none ${
-                  JSON.stringify(priceRange) === JSON.stringify([0, 100])
-                    ? "text-gray-500"
-                    : "text-gray-900"
-                }`}
-                value={JSON.stringify(priceRange)}
-                onChange={(e) => setPriceRange(JSON.parse(e.target.value))}
-              >
-                {priceRanges.map((range, index) => (
-                  <option key={index} value={JSON.stringify(range.value)}>
-                    {range.label}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            <div>
-              <input
-                type="text"
-                id="search"
-                className="w-full px-4 sm:px-8 sm:hover:bg-gray-50 max-sm:rounded-2xl sm:focus:bg-gray-50 py-2 sm:py-5 outline-none rounded-r-full"
-                placeholder="Search services..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-              />
-            </div>
+            <input
+              type="text"
+              id="search"
+              className="w-full px-4 sm:px-20 sm:hover:bg-gray-50 max-sm:rounded-2xl sm:focus:bg-gray-50 py-2 sm:py-5 outline-none rounded-r-full"
+              placeholder="Search services..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
           </div>
         </div>
 
