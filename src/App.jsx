@@ -8,11 +8,12 @@ import { Provider } from "react-redux";
 import store from "./redux/store";
 import "./app.css";
 import { Toaster } from "sonner";
+import ErrorPage from "./pages/ErrorPage";
 
 function App() {
   return (
     <Provider store={store}>
-      <Toaster richColors toastOptions={{className: "font-outfit"}}/>
+      <Toaster richColors closeButton position="bottom-center" toastOptions={{className: "font-outfit"}}/>
       <Router>
         <Header />
         <Routes>
@@ -20,6 +21,7 @@ function App() {
           <Route path="/cart" element={<CartPage />} />
           <Route path="/checkout" element={<CheckoutPage />} />
           <Route path="/receipt" element={<ReceiptPage />} />
+          <Route path="*" element={<ErrorPage />} />
         </Routes>
       </Router>
     </Provider>

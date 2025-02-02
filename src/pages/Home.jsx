@@ -1,10 +1,13 @@
-import React, { useState } from "react";
+import { useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../redux/cartSlice";
 import ServiceCard from "../components/ServiceCard";
 import services from "../data/services";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
+import filterServices from "../utils/filterServices";
+import { FaFilterCircleXmark } from "react-icons/fa6";
+import Analytics from "../components/Analytics";
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -12,6 +15,12 @@ const Home = () => {
   const [selectedCategory, setSelectedCategory] = useState("");
   const [priceRange, setPriceRange] = useState([0, 100]);
   const [searchTerm, setSearchTerm] = useState("");
+  const [filteredServices, setFilteredServices] = useState(services);
+  const servicesRef = useRef();
+  const isFilterApplied =
+    selectedCategory ||
+    JSON.stringify(priceRange) !== JSON.stringify([0, 100]) ||
+    searchTerm;
 
   const priceRanges = [
     { label: "All Prices", value: [0, 100] },
@@ -20,19 +29,6 @@ const Home = () => {
     { label: "$50 - $75", value: [50, 75] },
     { label: "$75 - $100", value: [75, 100] },
   ];
-
-  const filteredServices = services.filter((service) => {
-    const isCategoryMatch = selectedCategory
-      ? service.category === selectedCategory
-      : true;
-    const isPriceMatch =
-      service.price >= priceRange[0] && service.price <= priceRange[1];
-    const isSearchMatch = service.name
-      .toLowerCase()
-      .includes(searchTerm.toLowerCase());
-
-    return isCategoryMatch && isPriceMatch && isSearchMatch;
-  });
 
   const handleOnAdd = (service) => {
     dispatch(addToCart(service));
@@ -43,23 +39,47 @@ const Home = () => {
       },
     });
   };
+  const scrollTo = (ref) => {
+    if (ref && ref.current) {
+      ref.current.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+  const handleApplyFilters = () => {
+    const updatedFilteredServices = filterServices(
+      services,
+      selectedCategory,
+      priceRange,
+      searchTerm
+    );
+    setFilteredServices(updatedFilteredServices);
+    scrollTo(servicesRef);
+  };
+
+  const clearFilter = () => {
+    setSelectedCategory("");
+    setPriceRange([0, 100]);
+    setSearchTerm("");
+    setFilteredServices(services);
+  };
   return (
     <div className="font-outfit">
-      <section className="bg-gradient-to-b from-blue-400 flex flex-col justify-center items-center to-blue-50 py-8 text-center h-screen">
-        <h1 className="text-7xl max-w-3xl font-bold">
+      <section className="bg-gradient-to-b from-blue-400 flex flex-col justify-center items-center to-blue-50 pb-8 pt-20 md:pt-28 text-center h-screen">
+        <h1 className="text-5xl lg:text-7xl max-w-3xl font-bold">
           Book Local Services Online with Ease
         </h1>
-        <p className="mt-2 text-xl max-w-2xl font-light">
+        <p className="mt-2 text-lg sm:text-xl max-w-2xl font-light">
           Quickly browse, select, and checkout services effortlessly for a
           smooth and hassle-free experience.
         </p>
 
-        <div className="bg-gradient-to-r from-blue-300 mt-2 to-blue-100 p-1.5 rounded-full filters">
-          <div className="flex flex-wrap justify-between items-center bg-white rounded-full">
+        <div className="bg-gradient-to-r from-blue-300 mt-4 to-blue-100 p-1.5 rounded-3xl max-sm:mx-6 md:rounded-full filters">
+          <div className="flex flex-wrap justify-between items-center bg-white rounded-2xl md:rounded-full">
             <div>
               <select
                 id="category"
-                className="w-full px-20 py-5 border-r border-gray-100 hover:bg-gray-50 outline-none rounded-l-full "
+                className={`w-full cursor-pointer px-4 sm:px-20 py-2 sm:py-5 border-r border-gray-100 sm:hover:bg-gray-50 outline-none rounded-l-full ${
+                  selectedCategory === "" ? "text-gray-500" : "text-gray-900"
+                }`}
                 value={selectedCategory}
                 onChange={(e) => setSelectedCategory(e.target.value)}
               >
@@ -74,7 +94,11 @@ const Home = () => {
             <div>
               <select
                 id="priceRange"
-                className="w-full px-20 hover:bg-gray-50  py-5 border-r border-gray-100 outline-none"
+                className={`w-full cursor-pointer px-4 sm:px-20 max-sm:rounded-2xl sm:hover:bg-gray-50 py-2 sm:py-5 border-r border-gray-100 outline-none ${
+                  JSON.stringify(priceRange) === JSON.stringify([0, 100])
+                    ? "text-gray-500"
+                    : "text-gray-900"
+                }`}
                 value={JSON.stringify(priceRange)}
                 onChange={(e) => setPriceRange(JSON.parse(e.target.value))}
               >
@@ -90,7 +114,7 @@ const Home = () => {
               <input
                 type="text"
                 id="search"
-                className="w-full px-8 hover:bg-gray-50 focus:bg-gray-50 py-5 outline-none rounded-r-full"
+                className="w-full px-4 sm:px-8 sm:hover:bg-gray-50 max-sm:rounded-2xl sm:focus:bg-gray-50 py-2 sm:py-5 outline-none rounded-r-full"
                 placeholder="Search services..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
@@ -100,28 +124,49 @@ const Home = () => {
         </div>
 
         <button
-          className="bg-black mt-6 px-24 py-3 rounded-full font-medium text-white cursor-pointer"
-          onClick={() => {
-            setSelectedCategory("");
-            setPriceRange([0, 100]);
-            setSearchTerm("");
-          }}
+          className="bg-black mt-4 sm:mt-6 px-14 sm:px-20 py-2.5 sm:py-3 rounded-full font-medium text-white cursor-pointer"
+          onClick={handleApplyFilters}
         >
-          See All Services
+          Search Services
         </button>
       </section>
 
-      <section className="py-6 px-4 bg-gradient-to-b from-blue-50 to-white pb-20">
-        <h2 className="text-5xl font-bold text-center pb-16">Services</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
-          {filteredServices.map((service) => (
-            <ServiceCard
-              key={service.id}
-              service={service}
-              onAdd={() => handleOnAdd(service)}
-            />
-          ))}
+      <section
+        ref={servicesRef}
+        className="pt-2 px-4 bg-blue-50 pb-10"
+      >
+        <div className="flex justify-between items-center border-b border-gray-300 max-w-4xl mx-auto mb-12 pb-1">
+          <h2 className="text-4xl font-bold text-gray-800">Services</h2>
+
+          {isFilterApplied && (
+            <button
+              onClick={clearFilter}
+              className="bg-gray-800 cursor-pointer text-white p-2 rounded-lg hover:bg-gray-950 transition duration-200"
+            >
+              <FaFilterCircleXmark />
+            </button>
+          )}
         </div>
+
+        {filteredServices.length === 0 ? (
+          <div className="text-center py-8">
+            <h3 className="text-2xl font-semibold text-gray-800">
+              No services found matching your criteria.
+            </h3>
+            <p className="text-gray-700 mt-2">Try adjusting your filters.</p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-10 max-w-4xl mx-auto">
+            {filteredServices.map((service) => (
+              <ServiceCard
+                key={service.id}
+                service={service}
+                onAdd={() => handleOnAdd(service)}
+              />
+            ))}
+          </div>
+        )}
+      <Analytics />
       </section>
     </div>
   );
