@@ -2,7 +2,7 @@ const services = [
     {
       id: 1,
       name: "Yoga Class",
-      price: 15,
+      price: 1500,
       category: "Fitness",
       duration: "60 minutes",
       description: "Relax your body and mind with a guided yoga session suitable for all levels.",
@@ -11,7 +11,7 @@ const services = [
     {
       id: 2,
       name: "Personal Training",
-      price: 40,
+      price: 3500,
       category: "Fitness",
       duration: "1 hour",
       description: "Get one-on-one training with a professional fitness coach to achieve your fitness goals.",
@@ -20,7 +20,7 @@ const services = [
     {
       id: 3,
       name: "Mental Health Session",
-      price: 60,
+      price: 5000,
       category: "Therapy",
       duration: "45 minutes",
       description: "A confidential one-on-one session with a licensed therapist for mental well-being.",
@@ -29,7 +29,7 @@ const services = [
     {
       id: 4,
       name: "Coding Bootcamp",
-      price: 100,
+      price: 8500,
       category: "Education",
       duration: "4 weeks",
       description: "An intensive coding bootcamp covering web development and programming fundamentals.",
@@ -38,7 +38,7 @@ const services = [
     {
       id: 5,
       name: "Marketing Mastery",
-      price: 80,
+      price: 7000,
       category: "Education",
       duration: "2 days",
       description: "Learn the latest digital marketing strategies, SEO, and social media tactics.",
@@ -47,7 +47,7 @@ const services = [
     {
       id: 6,
       name: "Massage Therapy",
-      price: 50,
+      price: 4000,
       category: "Wellness",
       duration: "90 minutes",
       description: "A relaxing full-body massage to relieve stress and muscle tension.",

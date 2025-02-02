@@ -12,15 +12,17 @@ import {
 } from "react-icons/fa";
 import { SiPaytm } from "react-icons/si";
 import { LiaAmazonPay } from "react-icons/lia";
+import { selectCurrency } from "../redux/currencySlice";
+import convertPrice from "../utils/convertPrice";
 
 const CheckoutPage = () => {
+  const selectedCurrency = useSelector(selectCurrency);
   const cartItems = useSelector((state) => state.cart.cartItems);
   const totalPrice = useSelector((state) => state.cart.totalPrice);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const [paymentMethod, setPaymentMethod] = useState("Credit_Card");
-
   const [billingDetails, setBillingDetails] = useState({
     fullName: "",
     email: "",
@@ -43,7 +45,7 @@ const CheckoutPage = () => {
           <EmptyCart />
         ) : (
           <div className="space-y-8">
-            <h1 className="text-3xl sm:text-4xl font-bold py-2 border-b border-gray-400 mb-10">
+            <h1 className="text-3xl sm:text-4xl font-bold py-2 border-b border-gray-300 mb-10">
               Secure Checkout
             </h1>
             <div className="bg-white p-6 rounded-2xl shadow-lg shadow-blue-100">
@@ -57,11 +59,14 @@ const CheckoutPage = () => {
                       <h2 className="text-lg font-semibold">{item.name}</h2>
                       <p className="text-gray-500">{item.category}</p>
                       <p className="text-gray-700">
-                        ${item.price} x {item.quantity}
+                        {selectedCurrency === "INR" ? "₹" : "$"}{" "}
+                        {convertPrice(selectedCurrency, item.price)} x{" "}
+                        {item.quantity}
                       </p>
                     </div>
-                    <p className="font-semibold">
-                      ${(item.price * item.quantity).toFixed(2)}
+                    <p className="font-semibold py-2">
+                      {selectedCurrency === "INR" ? "₹" : "$"}{" "}
+                      {(convertPrice(selectedCurrency, item.price) * item.quantity).toFixed(2)}
                     </p>
                   </div>
                 ))}
@@ -69,7 +74,11 @@ const CheckoutPage = () => {
 
               <div className="mt-4 flex justify-between text-lg font-semibold border-t border-gray-200 pt-3">
                 <span>Total:</span>
-                <span>${totalPrice.toFixed(2)}</span>
+                <span>
+                  {" "}
+                  {selectedCurrency === "INR" ? "₹" : "$"}{" "}
+                  {convertPrice(selectedCurrency, totalPrice)}
+                </span>
               </div>
             </div>
 

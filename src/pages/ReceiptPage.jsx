@@ -3,10 +3,12 @@ import { useNavigate } from "react-router-dom";
 import EmptyCart from "../components/EmptyCart";
 import downloadReceipt from "../utils/downloadReceipt";
 import { HiDownload } from "react-icons/hi";
+import { selectCurrency } from "../redux/currencySlice";
+import convertPrice from "../utils/convertPrice";
 
 const ReceiptPage = () => {
   const navigate = useNavigate();
-
+  const selectedCurrency = useSelector(selectCurrency);
   const { cartItems, billingDetails, paymentType, pricePaid } = useSelector(
     (state) => state.checkout
   );
@@ -18,7 +20,7 @@ const ReceiptPage = () => {
           <EmptyCart />
         ) : (
           <div className=" mx-auto p-6">
-            <div className="flex justify-between items-center  border-b border-gray-200 mb-6 sm:mb-10 pb-1">
+            <div className="flex justify-between items-center  border-b border-gray-300 mb-6 sm:mb-10 pb-1">
               <h1 className="text-3xl sm:text-4xl font-bold">
                 Payment Receipt
               </h1>
@@ -58,7 +60,9 @@ const ReceiptPage = () => {
                   <strong>Payment Method:</strong> {paymentType}
                 </p>
                 <p>
-                  <strong>Total Paid:</strong> ${pricePaid.toFixed(2)}
+                  <strong>Total Paid:</strong>{" "}
+                  {selectedCurrency === "INR" ? "₹" : "$"}{" "}
+                  {convertPrice(selectedCurrency, pricePaid)}
                 </p>
               </div>
 
@@ -73,11 +77,15 @@ const ReceiptPage = () => {
                       <h3 className="text-lg font-semibold">{item.name}</h3>
                       <p className="text-sm text-gray-500">{item.category}</p>
                       <p className="text-sm text-gray-600">
-                        ${item.price} x {item.quantity}
+                        {selectedCurrency === "INR" ? "₹" : "$"}
+                        {convertPrice(selectedCurrency, item.price)} x{" "}
+                        {item.quantity}
                       </p>
                     </div>
                     <p className="font-semibold">
-                      ${(item.price * item.quantity).toFixed(2)}
+                      {selectedCurrency === "INR" ? "₹" : "$"}{" "}
+                      {(convertPrice(selectedCurrency, item.price) *
+                        item.quantity).toFixed(2)}
                     </p>
                   </div>
                 ))}

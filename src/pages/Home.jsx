@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../redux/cartSlice";
 import ServiceCard from "../components/ServiceCard";
 import services from "../data/services";
@@ -8,6 +8,8 @@ import { useNavigate } from "react-router-dom";
 import filterServices from "../utils/filterServices";
 import { FaFilterCircleXmark } from "react-icons/fa6";
 import Analytics from "../components/Analytics";
+import { selectCurrency } from "../redux/currencySlice";
+import convertPrice from "../utils/convertPrice";
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -22,12 +24,55 @@ const Home = () => {
     JSON.stringify(priceRange) !== JSON.stringify([0, 100]) ||
     searchTerm;
 
+  const selectedCurrency = useSelector(selectCurrency);
+
+  const currencySymbol = selectedCurrency === "INR" ? "₹" : "$";
+
   const priceRanges = [
-    { label: "All Prices", value: [0, 100] },
-    { label: "$0 - $25", value: [0, 25] },
-    { label: "$25 - $50", value: [25, 50] },
-    { label: "$50 - $75", value: [50, 75] },
-    { label: "$75 - $100", value: [75, 100] },
+    {
+      label: `All Prices`,
+      value: [0, convertPrice(selectedCurrency, 10000)],
+    },
+    {
+      label: `${currencySymbol} ${convertPrice(
+        selectedCurrency,
+        0
+      )} - ${currencySymbol} ${convertPrice(selectedCurrency, 2500)}`,
+      value: [
+        convertPrice(selectedCurrency, 0),
+        convertPrice(selectedCurrency, 2500),
+      ],
+    },
+    {
+      label: `${currencySymbol} ${convertPrice(
+        selectedCurrency,
+        2500
+      )} - ${currencySymbol} ${convertPrice(selectedCurrency, 5000)}`,
+      value: [
+        convertPrice(selectedCurrency, 2500),
+        convertPrice(selectedCurrency, 5000),
+      ],
+    },
+    {
+      label: `${currencySymbol} ${convertPrice(
+        selectedCurrency,
+        5000
+      )} - ${currencySymbol} ${convertPrice(selectedCurrency, 7500)}`,
+      value: [
+        convertPrice(selectedCurrency, 5000),
+        convertPrice(selectedCurrency, 7500),
+      ],
+    },
+    {
+      label: `${currencySymbol} ${convertPrice(
+        selectedCurrency,
+        7500
+      )} - ${currencySymbol} ${convertPrice(selectedCurrency, 10000)}`,
+      value: [
+        convertPrice(selectedCurrency, 7500),
+        convertPrice(selectedCurrency, 10000),
+      ],
+    },
   ];
 
   const handleOnAdd = (service) => {
@@ -131,10 +176,7 @@ const Home = () => {
         </button>
       </section>
 
-      <section
-        ref={servicesRef}
-        className="pt-2 px-4 bg-blue-50 pb-10"
-      >
+      <section ref={servicesRef} className="pt-2 px-4 bg-blue-50 pb-10">
         <div className="flex justify-between items-center border-b border-gray-300 max-w-4xl mx-auto mb-12 pb-1">
           <h2 className="text-4xl font-bold text-gray-800">Services</h2>
 
@@ -166,7 +208,7 @@ const Home = () => {
             ))}
           </div>
         )}
-      <Analytics />
+        <Analytics />
       </section>
     </div>
   );

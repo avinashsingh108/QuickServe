@@ -1,5 +1,9 @@
+import { useSelector } from "react-redux";
+import { selectCurrency } from "../redux/currencySlice";
+import convertPrice from "../utils/convertPrice";
+
 const analyticsData = {
-  totalRevenue: 13450,
+  totalRevenue: 1156700,
   servicesSold: 125,
   totalCustomers: 75,
 };
@@ -14,9 +18,10 @@ const AnalyticsCard = ({ title, value }) => {
 };
 
 const Analytics = () => {
+  const selectedCurrency = useSelector(selectCurrency);
   return (
     <div className="max-sm:mx-2 max-w-4xl mx-auto  space-y-4 py-20">
-      <h2 className="text-4xl font-bold text-gray-800 border-b border-gray-300 max-w-4xl mx-auto mb-12 pb-1">
+      <h2 className="text-3xl sm:text-4xl font-bold text-gray-800 border-b border-gray-300 max-w-4xl mx-auto mb-12 pb-1">
         {" "}
         Analytics Overview
       </h2>
@@ -32,7 +37,10 @@ const Analytics = () => {
         />
         <AnalyticsCard
           title="Total Revenue"
-          value={`$${analyticsData.totalRevenue.toFixed(2)}`}
+          value={`${selectedCurrency === "INR" ? "₹" : "$"} ${convertPrice(
+            selectedCurrency,
+            analyticsData.totalRevenue
+          )}`}
         />
       </div>
     </div>
