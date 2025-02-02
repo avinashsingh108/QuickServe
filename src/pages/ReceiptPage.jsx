@@ -30,7 +30,8 @@ const ReceiptPage = () => {
                     billingDetails,
                     paymentType,
                     pricePaid,
-                    cartItems
+                    cartItems,
+                    selectedCurrency
                   )
                 }
                 className=" rounded-md text-lg  cursor-pointer bg-blue-500 px-2 py-1.5"
@@ -39,7 +40,7 @@ const ReceiptPage = () => {
               </button>
             </div>
             <div className="bg-white p-8 rounded-2xl">
-              <div className="mb-6 border-b border-gray-200 pb-4">
+              <div className="mb-4 border-b border-gray-200 pb-4">
                 <h2 className="text-2xl font-semibold mb-2">
                   Billing Information
                 </h2>
@@ -51,18 +52,6 @@ const ReceiptPage = () => {
                 </p>
                 <p>
                   <strong>Phone:</strong> {billingDetails.number}
-                </p>
-              </div>
-
-              <div className="mb-6 border-b border-gray-200 pb-4">
-                <h2 className="text-2xl font-semibold mb-2">Payment Details</h2>
-                <p>
-                  <strong>Payment Method:</strong> {paymentType}
-                </p>
-                <p>
-                  <strong>Total Paid:</strong>{" "}
-                  {selectedCurrency === "INR" ? "₹" : "$"}{" "}
-                  {convertPrice(selectedCurrency, pricePaid)}
                 </p>
               </div>
 
@@ -84,11 +73,24 @@ const ReceiptPage = () => {
                     </div>
                     <p className="font-semibold">
                       {selectedCurrency === "INR" ? "₹" : "$"}{" "}
-                      {(convertPrice(selectedCurrency, item.price) *
-                        item.quantity).toFixed(2)}
+                      {(
+                        convertPrice(selectedCurrency, item.price) *
+                        item.quantity
+                      ).toFixed(2)}
                     </p>
                   </div>
                 ))}
+              </div>
+              <div className="mb-6 pb-4">
+                <h2 className="text-2xl font-semibold mb-2">Payment Details</h2>
+                <p>
+                  <strong>Payment Method:</strong> {paymentType}
+                </p>
+                <p>
+                  <strong>Total Paid:</strong>{" "}
+                  {selectedCurrency === "INR" ? "₹" : "$"}{" "}
+                  {convertPrice(selectedCurrency, pricePaid)}
+                </p>
               </div>
 
               <button

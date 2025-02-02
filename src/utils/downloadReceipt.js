@@ -1,8 +1,10 @@
 import jsPDF from "jspdf";
+import convertPrice from "./convertPrice";
 
-const downloadReceipt = (billingDetails, paymentType, pricePaid, cartItems) => {
+const downloadReceipt = (billingDetails, paymentType, pricePaid, cartItems, selectedCurrency) => {
   const doc = new jsPDF();
-
+  const currencySymbol = selectedCurrency === "INR" ? "Rs " : "$";
+  const price = convertPrice(selectedCurrency, pricePaid)
   doc.setFontSize(20);
   doc.setFont("helvetica", "bold");
   doc.text("Payment Receipt", 20, 20);
@@ -22,7 +24,7 @@ const downloadReceipt = (billingDetails, paymentType, pricePaid, cartItems) => {
   doc.setFontSize(12);
   doc.setFont("helvetica", "normal");
   doc.text(`Payment Method: ${paymentType}`, 20, 100);
-  doc.text(`Total Paid: $${pricePaid.toFixed(2)}`, 20, 110);
+  doc.text(`Total Paid: ${currencySymbol}${price}`, 20, 110);
 
   doc.setFontSize(15);
   doc.setFont("helvetica", "bold");
@@ -34,18 +36,14 @@ const downloadReceipt = (billingDetails, paymentType, pricePaid, cartItems) => {
 
     doc.setFontSize(12);
     doc.text(`${item.name} (${item.category})`, 20, yPosition);
-
-    const itemTotal = (item.price * item.quantity).toFixed(2);
+    const price = convertPrice(selectedCurrency, item.price)
+    const itemTotal = (price * item.quantity).toFixed(2);
     doc.text(
-      `$${item.price} x ${item.quantity} = $${itemTotal}`,
+      `${currencySymbol}${price} x ${item.quantity} = ${currencySymbol}${itemTotal}`,
       20,
       yPosition + 10
     );
   });
-
-  doc.setFontSize(12);
-  doc.setFont("helvetica", "normal");
-  doc.text("Thank you for your purchase!", 20, 180);
 
   doc.save("Receipt.pdf");
 };

@@ -139,7 +139,7 @@ const Home = () => {
             <div>
               <select
                 id="priceRange"
-                className={`w-full cursor-pointer px-4 sm:px-20 max-sm:rounded-2xl sm:hover:bg-gray-50 py-2 sm:py-5 border-r border-gray-100 outline-none ${
+                className={`w-full cursor-pointer px-4 sm:px-12 max-sm:rounded-2xl sm:hover:bg-gray-50 py-2 sm:py-5 border-r border-gray-100 outline-none ${
                   JSON.stringify(priceRange) === JSON.stringify([0, 100])
                     ? "text-gray-500"
                     : "text-gray-900"
