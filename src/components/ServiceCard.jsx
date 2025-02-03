@@ -6,7 +6,7 @@ const ServiceCard = ({ service, onAdd }) => {
   const selectedCurrency = useSelector(selectCurrency);
 
   return (
-    <div className=" max-sm:mx-2 sm:max-w-xs bg-white rounded-3xl shadow-xl shadow-blue-100 overflow-hidden flex flex-col">
+    <div className=" max-sm:mx-2 sm:max-w-md bg-white rounded-3xl shadow-xl shadow-blue-100 overflow-hidden flex flex-col">
       <img
         src={service.image}
         alt={service.name}

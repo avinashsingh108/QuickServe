@@ -45,9 +45,15 @@ const CheckoutPage = () => {
           <EmptyCart />
         ) : (
           <div className="space-y-8">
-            <h1 className="text-3xl sm:text-4xl font-bold py-2 border-b border-gray-300 mb-10">
+            <h1 className="text-3xl sm:text-4xl font-bold py-2 border-b border-gray-300 mb-4">
               Secure Checkout
             </h1>
+            <div className="bg-yellow-100 text-yellow-800 p-4 rounded-lg shadow-md shadow-yellow-200 mb-4 text-center">
+              <p className="text-sm sm:text-base font-medium">
+                <strong>Note:</strong> This is a mock payment. Please enter
+                random data for billing details and payment information.
+              </p>
+            </div>
             <div className="bg-white p-6 rounded-2xl shadow-lg shadow-blue-100">
               <h2 className="text-xl pb-2 border-b border-gray-200 font-semibold mb-4">
                 Order Summary
@@ -66,7 +72,10 @@ const CheckoutPage = () => {
                     </div>
                     <p className="font-semibold py-2">
                       {selectedCurrency === "INR" ? "₹" : "$"}{" "}
-                      {(convertPrice(selectedCurrency, item.price) * item.quantity).toFixed(2)}
+                      {(
+                        convertPrice(selectedCurrency, item.price) *
+                        item.quantity
+                      ).toFixed(2)}
                     </p>
                   </div>
                 ))}
@@ -202,7 +211,7 @@ const CheckoutPage = () => {
             </div>
 
             <button
-              className="sm:mt-6 w-full bg-blue-500 text-white py-3 rounded-xl hover:bg-blue-600 cursor-pointer"
+              className=" w-full bg-blue-500 text-white py-3 rounded-xl hover:bg-blue-600 cursor-pointer"
               onClick={() =>
                 handleCheckout({
                   dispatch,

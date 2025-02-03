@@ -48,9 +48,9 @@ const Home = () => {
     setFilteredServices(services);
   };
   return (
-    <div className="font-outfit">
-      <section className="bg-gradient-to-b from-blue-400 flex flex-col max-sm:gap-y-2 justify-center items-center to-blue-50 pb-8 pt-20 md:pt-28 text-center h-screen">
-        <h1 className="text-5xl lg:text-7xl max-w-3xl font-bold">
+    <div className="font-outfit ">
+      <section className="px-2 bg-gradient-to-b from-blue-400 flex flex-col max-sm:gap-y-2 justify-center items-center to-blue-50 pb-8 pt-20 md:pt-28 text-center h-screen">
+        <h1 className="text-5xl sm:text-7xl max-w-3xl font-bold">
           Book Local Services Online with Ease
         </h1>
         <p className="mt-2 text-lg sm:text-xl max-w-2xl font-light">
@@ -59,10 +59,10 @@ const Home = () => {
         </p>
 
         <div className="bg-gradient-to-r from-blue-300 mt-4 to-blue-100 p-1.5 rounded-3xl max-sm:mx-6 md:rounded-full filters">
-          <div className="flex flex-wrap justify-between items-center bg-white rounded-2xl md:rounded-full">
+          <div className="flex max-md:flex-wrap justify-between items-center bg-white rounded-2xl md:rounded-full">
             <select
               id="category"
-              className={`w-full cursor-pointer px-4 sm:px-40 py-2 sm:py-5 border-r border-gray-100 sm:hover:bg-gray-50 outline-none rounded-l-full ${
+              className={`w-full cursor-pointer pl-4 pr-10 sm:pl-6 max-md:mr-8 md:px-28 py-2 sm:py-5 max-sm:mr-4 md:border-r md:border-gray-100 md:hover:bg-gray-50 outline-none rounded-l-full ${
                 selectedCategory === "" ? "text-gray-500" : "text-gray-900"
               }`}
               value={selectedCategory}
@@ -78,7 +78,7 @@ const Home = () => {
             <input
               type="text"
               id="search"
-              className="w-full px-4 sm:px-20 sm:hover:bg-gray-50 max-sm:rounded-2xl sm:focus:bg-gray-50 py-2 sm:py-5 outline-none rounded-r-full"
+              className="w-full pl-5 pr-10 sm:pl-7 max-md:mr-10 md:px-28 md:hover:bg-gray-50 md:rounded-2xl md:focus:bg-gray-50 py-2 sm:py-5 outline-none rounded-r-full"
               placeholder="Search services..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
@@ -94,7 +94,7 @@ const Home = () => {
         </button>
       </section>
 
-      <section ref={servicesRef} className="pt-2 px-4 bg-blue-50 pb-10">
+      <section ref={servicesRef} className="pt-2 px-4 sm:px-6 bg-blue-50 pb-10">
         <div className="flex justify-between items-center border-b border-gray-300 max-w-4xl mx-auto mb-12 pb-1">
           <h2 className="text-4xl font-bold text-gray-800">Services</h2>
 
@@ -116,7 +116,7 @@ const Home = () => {
             <p className="text-gray-700 mt-2">Try adjusting your filters.</p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-10 max-w-4xl mx-auto">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 max-lg:gap-x-14 gap-x-6 gap-y-10 max-w-4xl mx-auto">
             {filteredServices.map((service) => (
               <ServiceCard
                 key={service.id}
