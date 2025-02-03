@@ -62,7 +62,7 @@ const Home = () => {
           <div className="flex max-md:flex-wrap justify-between items-center bg-white rounded-2xl md:rounded-full">
             <select
               id="category"
-              className={`w-full cursor-pointer pl-4 pr-10 sm:pl-6 max-md:mr-8 md:px-28 py-2 sm:py-5 max-sm:mr-4 md:border-r md:border-gray-100 md:hover:bg-gray-50 outline-none rounded-l-full ${
+              className={`w-full appearance-none cursor-pointer pl-4 pr-10 sm:pl-6 max-md:mr-8 md:px-28 py-2 sm:py-5 max-sm:mr-4 md:border-r md:border-gray-100 md:hover:bg-gray-50 outline-none rounded-l-full ${
                 selectedCategory === "" ? "text-gray-500" : "text-gray-900"
               }`}
               value={selectedCategory}
@@ -78,7 +78,7 @@ const Home = () => {
             <input
               type="text"
               id="search"
-              className="w-full pl-5 pr-10 sm:pl-7 max-md:mr-10 md:px-28 md:hover:bg-gray-50 md:rounded-2xl md:focus:bg-gray-50 py-2 sm:py-5 outline-none rounded-r-full"
+              className="w-full pl-5 pr-10 sm:pl-7 max-md:mr-10 md:px-28 md:hover:bg-gray-50 md:focus:bg-gray-50 py-2 sm:py-5 outline-none md:rounded-r-full"
               placeholder="Search services..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}

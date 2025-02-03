@@ -23,6 +23,7 @@ const CheckoutPage = () => {
   const navigate = useNavigate();
 
   const [paymentMethod, setPaymentMethod] = useState("Credit_Card");
+  const [isProcessing, setIsProcessing] = useState(false);
   const [billingDetails, setBillingDetails] = useState({
     fullName: "",
     email: "",
@@ -211,19 +212,23 @@ const CheckoutPage = () => {
             </div>
 
             <button
+              disabled={isProcessing}
               className=" w-full bg-blue-500 text-white py-3 rounded-xl hover:bg-blue-600 cursor-pointer"
-              onClick={() =>
-                handleCheckout({
-                  dispatch,
-                  navigate,
-                  billingDetails,
-                  cartItems,
-                  totalPrice,
-                  paymentMethod,
-                })
-              }
+              onClick={() => {
+                if (!isProcessing) {
+                  setIsProcessing(true);
+                  handleCheckout({
+                    dispatch,
+                    navigate,
+                    billingDetails,
+                    cartItems,
+                    totalPrice,
+                    paymentMethod,
+                  }).finally(() => setIsProcessing(false)); 
+                }
+              }}
             >
-              Complete Purchase
+              {isProcessing ? "Processing..." : "Complete Purchase"}
             </button>
           </div>
         )}

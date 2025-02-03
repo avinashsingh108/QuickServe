@@ -1,17 +1,23 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import EmptyCart from "../components/EmptyCart";
 import downloadReceipt from "../utils/downloadReceipt";
 import { HiDownload } from "react-icons/hi";
 import { selectCurrency } from "../redux/currencySlice";
 import convertPrice from "../utils/convertPrice";
+import { clearCheckout } from "../redux/checkoutSlice";
 
 const ReceiptPage = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const selectedCurrency = useSelector(selectCurrency);
   const { cartItems, billingDetails, paymentType, pricePaid } = useSelector(
     (state) => state.checkout
   );
+  const handleBackHome = () => {
+    dispatch(clearCheckout());
+    navigate("/");
+  };
 
   return (
     <div className="bg-blue-50 min-h-screen pb-20">
@@ -94,7 +100,7 @@ const ReceiptPage = () => {
               </div>
 
               <button
-                onClick={() => navigate("/")}
+                onClick={handleBackHome}
                 className="mt-6 w-full bg-blue-500 text-white py-3 rounded-lg hover:bg-blue-600 cursor-pointer"
               >
                 Back to Home
