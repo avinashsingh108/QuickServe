@@ -2,7 +2,11 @@
   <img src="./public/handshake.png" width="40" height="40" alt="QuickServe Logo" style="vertical-align: middle;" />
   <span style="vertical-align: middle;">QuickServe</span>
 </h1>
-
+<p align="center">
+  <a href="https://quick-serve-five.vercel.app/" target="_blank">
+    <img src="https://img.shields.io/badge/Live%20Website-black?style=for-the-badge&logo=appveyor" alt="QuickServe Live Demo" />
+  </a>
+</p>
 <p align="center">
   <b>Your Local Service Marketplace</b><br/>
   <i>Fast, Reliable, and Convenient!</i>
