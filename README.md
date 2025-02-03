@@ -1,5 +1,5 @@
 <h1 align="center">
-  <img src="./public/handshake.png" width="40" height="40" alt="QuickServe Logo" style="vertical-align: middle;" />
+  <img src="./public/handshake.png" width="40" height="40" alt="QuickServe Logo" style="vertical-align: bottom;" />
   <span style="vertical-align: middle;">QuickServe</span>
 </h1>
 <p align="center">
