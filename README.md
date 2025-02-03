@@ -1,6 +1,5 @@
 <h1 align="center">
-  <img src="./public/handshake.png" width="40" height="40" alt="QuickServe Logo" style="vertical-align: bottom;" />
-  <span style="vertical-align: middle;">QuickServe</span>
+ QuickServe
 </h1>
 <p align="center">
   <a href="https://quick-serve-five.vercel.app/" target="_blank">
